@@ -1,12 +1,12 @@
 "use strict";
 
 const db = require("../db");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { sqlForPartialUpdate } = require("../helpers/sql");
 const {
   NotFoundError,
   BadRequestError,
-  UnauthorizedError
+  UnauthorizedError,
 } = require("../expressError");
 
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
@@ -62,7 +62,7 @@ class User {
     firstName,
     lastName,
     email,
-    isAdmin
+    isAdmin,
   }) {
     const duplicateCheck = await db.query(
       `SELECT username
@@ -174,7 +174,7 @@ class User {
     const { setCols, values } = sqlForPartialUpdate(data, {
       firstName: "first_name",
       lastName: "last_name",
-      isAdmin: "is_admin"
+      isAdmin: "is_admin",
     });
     const usernameVarIdx = "$" + (values.length + 1);
 
